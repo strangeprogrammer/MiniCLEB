@@ -51,7 +51,7 @@ with open(projroot + "README.md", "r") as README:
 		description = "Limited 'int'to 'LEB128' converter for 'python' using a 'C' backend.",
 		long_description = README.read(),
 		long_description_content_type = "text/markdown",
-		url = "https://www.github.com/strangeprogrammer/",
+		url = "https://www.github.com/strangeprogrammer/MiniCLEB",
 		ext_modules = [
 			Extension("_MiniCLEB", [
 				src + "_MiniCLEB.c",
