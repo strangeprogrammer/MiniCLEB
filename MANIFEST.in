@@ -4,6 +4,7 @@ include ./README.md
 include ./setup.py
 include ./.gitignore
 graft ./MiniCLEB/
+global-exclude __pycache__/*
 exclude ./build/
 exclude ./dist/
 exclude ./MiniCLEB.egg-info/
