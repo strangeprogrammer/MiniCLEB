@@ -45,7 +45,7 @@ class clean_wrap(clean):
 with open(projroot + "README.md", "r") as README:
 	setuptools.setup(
 		name = "MiniCLEB",
-		version = "0.0.1",
+		version = "0.0.2",
 		author = "strangeprogrammer",
 		author_email = "32551324+strangeprogrammer@users.noreply.github.com",
 		description = "Limited 'int'to 'LEB128' converter for 'python' using a 'C' backend.",

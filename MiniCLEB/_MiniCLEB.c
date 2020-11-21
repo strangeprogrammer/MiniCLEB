@@ -13,7 +13,7 @@
 const static unsigned long initbufsize = 1 * sizeof(char);
 
 bytes fromInt(unsigned long n){
-	char* buf = malloc(initbufsize);
+	char* buf = malloc(initbufsize); // Can cause a segfault indirectly by being out of memory
 	unsigned long len = initbufsize;
 	unsigned long idx = 0;
 	

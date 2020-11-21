@@ -4,8 +4,13 @@
 %module (moduleimport="import _MiniCLEB") MiniCLEB
 
 %typemap(in) bytes {
+	PyObject* input = $input;
+	if(!PyBytes_Check(input)){
+		PyErr_SetString(PyExc_TypeError, "Expected object of type 'bytes' as input...");
+		return NULL;
+	}
 	bytes leb;
-	PyBytes_AsStringAndSize($input, &(leb.buf), (Py_ssize_t*)(&(leb.len)));
+	PyBytes_AsStringAndSize(input, &(leb.buf), (Py_ssize_t*)(&(leb.len)));
 	$1 = leb;
 };
 
