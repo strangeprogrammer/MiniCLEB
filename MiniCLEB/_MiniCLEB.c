@@ -73,25 +73,46 @@ static unsigned long length(bytes leb){
 }
 
 // 64 bits can be correctly encoded within 9 7-bit chunks, with 1 bit in the 10th chunk. We return whether or not the LEB fits this description.
-BOOL valid(bytes leb){
+BOOL usable(bytes leb){
 	if(10 * sizeof(char) < leb.len){ // Easy case first
 		 return 0;
-	}else if (0 == leb.len){
+	}else if (leb.len == 0){
 		return 0;
 	}else if(leb.len == 10 * sizeof(char)){
 		if(leb.buf[9] & 0b11111110){ // If any more than 64 bits have been used, reject the LEB since it's not perfectly reconstructable
 			return 0;
-		}
+		}/*else{
+			return 1;
+		}*/
 	}/*else if(leb.len < 10 * sizeof(char)){*/
-		return 1;
+		return valid(leb);
 	/*}*/
 }
 
-PyObject* extract(bytes bobj){
-	int len = length(bobj);
+// Return whether or not the given input is a valid LEB
+BOOL valid(bytes leb){
+	if(leb.len == 0){
+		return 0;
+	}
+	
+	for(long unsigned int idx = 0; idx < leb.len - 1; idx++){
+		if(!(leb.buf[idx] & 0b10000000)){ // The continue flag wasn't found where it's supposed to be
+			return 0;
+		}
+	}
+	
+	if((leb.buf[leb.len - 1]) & 0b10000000){ // The continue flag was found where it isn't supposed to be
+		return 0;
+	}
+	
+	return 1;
+}
+
+PyObject* extract(bytes blob){
+	int LEBlen = length(blob);
 	
 	return PyTuple_Pack(2,
-		PyBytes_FromStringAndSize(bobj.buf, len),
-		PyBytes_FromStringAndSize(&(bobj.buf[len]), bobj.len - len)
+		PyBytes_FromStringAndSize(blob.buf, LEBlen),
+		PyBytes_FromStringAndSize(&(blob.buf[LEBlen]), blob.len - LEBlen)
 	);
 }

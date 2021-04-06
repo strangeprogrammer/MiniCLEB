@@ -17,7 +17,8 @@
 	
 	extern bytes fromInt(unsigned long n);
 	extern unsigned long toInt(bytes leb);
+	extern BOOL usable(bytes leb);
 	extern BOOL valid(bytes leb);
-	extern PyObject* extract(bytes bobj);
+	extern PyObject* extract(bytes blob);
 	
 #endif /* _MINICLEB_H */
